@@ -22,7 +22,7 @@ test -d "$EXT"
 /usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$APP/Info.plist"
 /usr/libexec/PlistBuddy -c 'Print NSExtension:NSExtensionPointIdentifier' "$EXT/Info.plist"
 APP_BINARY=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$APP/Info.plist")
-xcrun lipo -verify_arch arm64 "$APP/$APP_BINARY"
+xcrun lipo "$APP/$APP_BINARY" -verify_arch arm64
 STAGING=$(mktemp -d)
 trap 'rm -rf "$STAGING"' EXIT
 mkdir -p "$STAGING/Payload"
