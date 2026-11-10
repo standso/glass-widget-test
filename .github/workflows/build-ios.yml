@@ -1,0 +1,29 @@
+name: Build Glass Test IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build IPA
+        run: bash scripts/build-ipa.sh
+
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GlassTest-build
+          path: |
+            dist/GlassTest-unsigned.ipa
+            dist/build.log
+          if-no-files-found: error
